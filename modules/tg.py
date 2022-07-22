@@ -28,11 +28,11 @@ def tgDownload(msg: Message, serviceID: int, progressMessage: Message):
     else:
         print("This media type is not supported", flush=True)
         raise Exception("This media type is not supported")
-    
+
     fileName = media.file_name
     size = media.file_size
     print(fileName, size, flush=True)
-    
+
     file_path = os.path.join(os.getcwd(), 'Downloads', fileName)
     if not os.path.exists(file_path):
         message.download(file_path, progress=progress, progress_args=(progressMessage,fileName))

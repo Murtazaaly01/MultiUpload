@@ -18,7 +18,7 @@ def upload(filePath: str, serviceID: int, message: Message, progressMessage: Mes
     subprocess.Popen(["./go-ul_linux_x64", SERVICES[serviceID], '-f', filePath, '-j', 'response.json']).wait()
 
     response = json.load(open('response.json'))
-    
+
     if not response['jobs'][-1]['ok']:
         message.reply_text(f"`{response['jobs'][-1]['error_text']}`")
         raise Exception(f"{response['jobs'][-1]['error_text']}")
