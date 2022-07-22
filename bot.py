@@ -65,7 +65,7 @@ if not os.path.exists('Downloads'):
 print("Bot started", flush=True)
 @app.on_message(filters.text)
 def echo(client, message: Message):
-    if not message.chat.id in authorized_list:
+    if message.chat.id not in authorized_list:
         message.reply_text('**Unauthorized!**')
         return
 

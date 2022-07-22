@@ -30,15 +30,14 @@ def gdriveDownload(message: Message, serviceID: int, progressMessage: Message):
     #check if file exists in python
     download_path = os.path.join('Downloads', metadata['name'])
     if not os.path.exists(download_path):
-        fh = open(download_path, "wb")
-        downloader = MediaIoBaseDownload(fh, request)
-        done = False
-        while done is False:
-            status, done = downloader.next_chunk()
-            progressMessage.edit_text(f"**{metadata['name']}**\n`Downloading... {int(status.progress() * 100)}%`")
-            print(f"Download %d%%." % int(status.progress() * 100))
-        progressMessage.edit_text(f"Downloaded **{metadata['name']}**")
-        fh.close()
+        with open(download_path, "wb") as fh:
+            downloader = MediaIoBaseDownload(fh, request)
+            done = False
+            while not done:
+                status, done = downloader.next_chunk()
+                progressMessage.edit_text(f"**{metadata['name']}**\n`Downloading... {int(status.progress() * 100)}%`")
+                print("Download %d%%." % int(status.progress() * 100))
+            progressMessage.edit_text(f"Downloaded **{metadata['name']}**")
         print("Downloaded", flush=True)
     upload(download_path, serviceID, message, progressMessage)
     #os.remove(metadata['name'])
